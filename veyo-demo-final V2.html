@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Veyo · Creator Experience Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B0E14;
+    --bg-deep: #06080C;
+    --surface: #131822;
+    --surface-2: #1B2230;
+    --border: #2A3340;
+    --border-light: #3A4454;
+    --text: #ECE7DA;
+    --text-soft: #9A9485;
+    --text-faint: #6A6557;
+    --champagne: #C4A572;
+    --champagne-deep: #8B7A55;
+    --champagne-soft: #D9C195;
+    --green: #6FBA7C;
+    --red: #E63946;
+    --grid: rgba(196,165,114,0.04);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(196,165,114,0.04) 0%, transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(90,139,133,0.02) 0%, transparent 40%);
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, var(--grid) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+    background-size: 56px 56px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 28px 22px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* HEADER */
+  .doc-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .doc-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    line-height: 1.8;
+  }
+
+  .doc-stamp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--champagne);
+    border: 1px solid var(--champagne-deep);
+    padding: 4px 10px;
+  }
+
+  /* MASTHEAD */
+  .masthead {
+    padding: 40px 0 48px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 56px;
+  }
+
+  .veyo-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--champagne);
+    margin-bottom: 22px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(38px, 8vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: var(--text);
+    font-variation-settings: 'opsz' 144;
+    margin-bottom: 6px;
+  }
+
+  h1 em { font-style: italic; color: var(--champagne); }
+
+  .masthead-deck {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(17px, 3.2vw, 22px);
+    line-height: 1.45;
+    color: var(--text-soft);
+    margin-top: 22px;
+    max-width: 680px;
+    font-variation-settings: 'opsz' 48;
+  }
+
+  /* AUTHORITY */
+  .authority {
+    margin-top: 32px;
+    padding: 22px 24px;
+    background: var(--surface);
+    border-left: 2px solid var(--champagne);
+  }
+
+  .authority-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--champagne);
+    margin-bottom: 12px;
+  }
+
+  .authority-text {
+    font-size: 15px;
+    color: var(--text-soft);
+    line-height: 1.6;
+  }
+
+  .authority-text strong { color: var(--champagne-soft); font-weight: 500; }
+
+  .brand-chips-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .brand-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--champagne-soft);
+    background: rgba(196,165,114,0.08);
+    border: 1px solid var(--champagne-deep);
+    padding: 3px 8px;
+    letter-spacing: 0.06em;
+  }
+
+  /* SECTION */
+  section { margin-top: 72px; }
+
+  .sh {
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+  }
+
+  .sh-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .sh-roman {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--champagne);
+    letter-spacing: 0.14em;
+  }
+
+  .sh-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+  }
+
+  .sh h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(28px, 5vw, 40px);
+    line-height: 1.08;
+    letter-spacing: -0.018em;
+    color: var(--text);
+    font-variation-settings: 'opsz' 144;
+  }
+
+  .sh h2 em { font-style: italic; color: var(--champagne); }
+
+  .sh .deck {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--text-soft);
+    margin-top: 8px;
+    max-width: 100%;
+    font-variation-settings: 'opsz' 48;
+  }
+
+  /* PROSE */
+  .prose {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text-soft);
+    max-width: 100%;
+  }
+  .prose p + p { margin-top: 12px; }
+  .prose strong { color: var(--text); font-weight: 500; }
+  .prose em { font-style: italic; color: var(--champagne-soft); }
+
+  /* STAGES */
+  .stage {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  @media (max-width: 560px) { .stage { grid-template-columns: 1fr; gap: 8px; } }
+  .stage:last-child { border-bottom: none; }
+
+  .stage-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--champagne);
+    letter-spacing: 0.14em;
+    padding-top: 4px;
+  }
+
+  .stage h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 24px;
+    color: var(--text);
+    margin-bottom: 6px;
+    font-variation-settings: 'opsz' 96;
+    letter-spacing: -0.01em;
+  }
+
+  .stage h3 em { font-style: italic; color: var(--champagne); }
+
+  .stage-map {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 560px) { .stage-map { grid-template-columns: 1fr; } }
+
+  .map-half {
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
+
+  .map-half.lux {
+    background: var(--bg-deep);
+    border-right: 1px solid var(--border);
+  }
+  @media (max-width: 560px) {
+    .map-half.lux { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+
+  .map-half .mlabel {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 6px;
+  }
+
+  .map-half.lux .mlabel { color: var(--champagne); }
+  .map-half em { font-style: italic; color: var(--text); }
+  .map-half strong { color: var(--text); font-weight: 500; }
+
+  /* DELIVERABLES TABLE */
+  .deliv-table {
+    margin-top: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  .deliv-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background: var(--bg-deep);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--champagne);
+    gap: 16px;
+  }
+
+  @media (max-width: 640px) {
+    .deliv-header { grid-template-columns: 1fr 1fr; }
+    .deliv-header .col-3 { display: none; }
+  }
+
+  .deliv-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+    align-items: start;
+    font-size: 13px;
+  }
+
+  .deliv-row:last-child { border-bottom: none; }
+
+  @media (max-width: 640px) {
+    .deliv-row { grid-template-columns: 1fr 1fr; }
+    .deliv-row .col-3 { display: none; }
+  }
+
+  .deliv-row .d-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--text);
+    font-variation-settings: 'opsz' 48;
+    margin-bottom: 2px;
+  }
+
+  .deliv-row .d-agent {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--champagne);
+    letter-spacing: 0.1em;
+  }
+
+  .deliv-row .d-format {
+    font-size: 12.5px;
+    color: var(--text-soft);
+    line-height: 1.45;
+  }
+
+  .deliv-row .d-outcome {
+    font-size: 12.5px;
+    color: var(--text-soft);
+    line-height: 1.45;
+    font-style: italic;
+  }
+
+  .deliv-row .d-outcome strong { color: var(--green); font-weight: 500; font-style: normal; }
+
+  /* MOAT */
+  .moat {
+    margin-top: 28px;
+    background: linear-gradient(135deg, var(--surface) 0%, var(--bg-deep) 100%);
+    border: 1px solid var(--champagne-deep);
+    padding: 28px 26px;
+    position: relative;
+  }
+
+  .moat::before {
+    content: '★ STRUCTURAL ADVANTAGE';
+    position: absolute;
+    top: -8px;
+    left: 16px;
+    background: var(--bg);
+    color: var(--champagne);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    padding: 0 8px;
+  }
+
+  .moat h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 24px;
+    color: var(--text);
+    margin-bottom: 10px;
+    margin-top: 6px;
+    font-variation-settings: 'opsz' 96;
+  }
+
+  .moat h3 em { font-style: italic; color: var(--champagne); }
+
+  .moat p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-soft);
+    margin-bottom: 10px;
+  }
+
+  .moat p strong { color: var(--champagne-soft); font-weight: 500; }
+
+  /* INTERACTIVE MODULE */
+  .interactive {
+    margin-top: 28px;
+    background: var(--bg-deep);
+    border: 1px solid var(--champagne-deep);
+    padding: 32px 28px;
+    position: relative;
+  }
+
+  .interactive::before {
+    content: '◈ LIVE DEMONSTRATION';
+    position: absolute;
+    top: -8px;
+    left: 16px;
+    background: var(--bg);
+    color: var(--champagne);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    padding: 0 8px;
+  }
+
+  .interactive h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 26px;
+    color: var(--text);
+    margin-bottom: 6px;
+    margin-top: 6px;
+    font-variation-settings: 'opsz' 96;
+  }
+
+  .interactive h3 em { font-style: italic; color: var(--champagne); }
+
+  .int-deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--text-soft);
+    margin-bottom: 24px;
+    font-variation-settings: 'opsz' 48;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .creator-input {
+    flex: 1;
+    min-width: 200px;
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .creator-input::placeholder { color: var(--text-faint); }
+  .creator-input:focus { border-color: var(--champagne); }
+
+  .analyze-btn {
+    background: var(--champagne);
+    color: var(--bg-deep);
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 12px 22px;
+    cursor: pointer;
+    transition: background 0.2s, opacity 0.2s;
+    white-space: nowrap;
+  }
+
+  .analyze-btn:hover { background: var(--champagne-soft); }
+  .analyze-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .int-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+    margin-bottom: 24px;
+  }
+
+  /* LOADING */
+  .loading-state {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+  .loading-state.visible { display: block; }
+
+  .loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid var(--border);
+    border-top-color: var(--champagne);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+    margin: 0 auto 20px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--champagne);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .loading-counter span {
+    color: var(--champagne-soft);
+    font-size: 13px;
+  }
+
+  .loading-insight {
+    min-height: 54px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .loading-insight .li-action {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .loading-insight .li-finding {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--champagne-soft);
+    font-variation-settings: 'opsz' 48;
+    line-height: 1.4;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    max-width: 340px;
+  }
+
+  .loading-insight.show .li-action,
+  .loading-insight.show .li-finding {
+    opacity: 1;
+  }
+
+  /* ERROR */
+  .error-state {
+    display: none;
+    margin-top: 24px;
+    padding: 16px 18px;
+    background: rgba(230,57,70,0.06);
+    border: 1px solid rgba(230,57,70,0.25);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--red);
+  }
+  .error-state.visible { display: block; }
+
+  /* ── ANALYSIS REPORT OUTPUT ── */
+  .analysis-output {
+    display: none;
+    margin-top: 32px;
+    border-top: 1px solid var(--border);
+    padding-top: 32px;
+  }
+  .analysis-output.visible { display: block; }
+
+  /* Report header */
+  .report-header {
+    margin-bottom: 28px;
+  }
+
+  .report-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--champagne);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .report-tag::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 60px;
+  }
+
+  .report-creator-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(34px, 7vw, 56px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: var(--text);
+    font-variation-settings: 'opsz' 144;
+    margin-bottom: 4px;
+  }
+
+  .report-archetype {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--champagne);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .report-positioning {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--text-soft);
+    line-height: 1.45;
+    max-width: 680px;
+    font-variation-settings: 'opsz' 48;
+    padding-left: 14px;
+    border-left: 2px solid var(--champagne);
+  }
+
+  /* Score overview strip */
+  .score-overview {
+    display: flex;
+    gap: 4px;
+    margin: 24px 0 20px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .score-pip {
+    width: 36px;
+    height: 5px;
+    border-radius: 1px;
+    flex-shrink: 0;
+  }
+
+  .score-pip.high { background: var(--green); }
+  .score-pip.mid { background: var(--champagne); }
+  .score-pip.low { background: var(--red); }
+  .score-pip.empty { background: var(--border); }
+
+  .score-overview-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+    margin-left: 10px;
+  }
+
+  /* Stage cards */
+  .report-stages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .stage-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .stage-card:hover { border-color: var(--border-light); }
+
+  .stage-card-top {
+    padding: 14px 18px 10px;
+  }
+
+  .stage-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  .stage-card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .stage-card-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+
+  .stage-card-score.high { color: var(--green); }
+  .stage-card-score.mid { color: var(--champagne); }
+  .stage-card-score.low { color: var(--red); }
+
+  .stage-card-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 17px;
+    color: var(--text);
+    margin-bottom: 8px;
+    font-variation-settings: 'opsz' 48;
+  }
+
+  /* Score bar */
+  .stage-bar-track {
+    height: 3px;
+    background: var(--border);
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .stage-bar-fill {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: width 0.6s ease;
+  }
+
+  .stage-bar-fill.high { background: var(--green); }
+  .stage-bar-fill.mid { background: var(--champagne); }
+  .stage-bar-fill.low { background: var(--red); }
+
+  .stage-card-analysis {
+    font-size: 13.5px;
+    color: var(--text-soft);
+    line-height: 1.6;
+    padding: 0 18px 12px;
+  }
+
+  .stage-card-rec {
+    padding: 10px 18px 14px;
+    border-top: 1px dashed var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--champagne-soft);
+    line-height: 1.55;
+  }
+
+  .stage-card-rec::before {
+    content: '↳ ';
+    color: var(--champagne);
+    font-weight: 600;
+  }
+
+  /* Overall score */
+  .overall-score-block {
+    background: var(--bg-deep);
+    border: 1px solid var(--border);
+    padding: 28px 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .overall-number {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 72px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variation-settings: 'opsz' 144;
+  }
+
+  .overall-number.high { color: var(--green); }
+  .overall-number.mid { color: var(--champagne); }
+  .overall-number.low { color: var(--red); }
+
+  .overall-meta {
+    flex: 1;
+  }
+
+  .overall-denom {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    margin-bottom: 6px;
+  }
+
+  .overall-verdict {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--text);
+    margin-bottom: 4px;
+    font-variation-settings: 'opsz' 48;
+  }
+
+  .overall-context {
+    font-size: 13px;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
+
+  /* Strategic finding */
+  .strategic-block {
+    background: var(--surface);
+    border: 1px solid var(--champagne-deep);
+    padding: 24px 26px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .strategic-block::before {
+    content: 'STRATEGIC FINDING';
+    position: absolute;
+    top: -8px;
+    left: 16px;
+    background: var(--bg-deep);
+    color: var(--champagne);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.18em;
+    padding: 0 8px;
+  }
+
+  .strategic-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--text);
+    line-height: 1.55;
+    font-variation-settings: 'opsz' 48;
+    margin-top: 6px;
+    margin-bottom: 16px;
+  }
+
+  .primary-intervention {
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    color: var(--champagne-soft);
+    line-height: 1.55;
+  }
+
+  .primary-intervention::before {
+    content: '→ PRIORITY ACTION  ';
+    color: var(--champagne);
+    font-weight: 600;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+  }
+
+  /* CTA */
+  .report-cta {
+    background: var(--bg-deep);
+    border: 1px solid var(--border);
+    padding: 22px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .cta-left .cta-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 6px;
+  }
+
+  .cta-left .cta-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 17px;
+    color: var(--text);
+    margin-bottom: 4px;
+    font-variation-settings: 'opsz' 48;
+  }
+
+  .cta-left .cta-desc {
+    font-size: 12.5px;
+    color: var(--text-soft);
+    line-height: 1.45;
+    max-width: 480px;
+  }
+
+  .cta-btn {
+    background: var(--champagne);
+    color: var(--bg-deep);
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 13px 22px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .cta-btn:hover { background: var(--champagne-soft); }
+
+  .report-footer {
+    margin-top: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+    text-align: center;
+  }
+
+  /* Stage bullet recommendations */
+  .stage-bullets {
+    padding: 10px 18px 14px;
+    border-top: 1px dashed var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .stage-bullet {
+    display: flex;
+    gap: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--champagne-soft);
+    line-height: 1.5;
+    align-items: flex-start;
+  }
+
+  .stage-bullet::before {
+    content: '→';
+    color: var(--champagne);
+    font-weight: 600;
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+
+  /* Bullet lock — only blurs the recommendations */
+  .bullets-locked {
+    position: relative;
+  }
+
+  .bullets-locked .stage-bullets {
+    filter: blur(5px);
+    user-select: none;
+    pointer-events: none;
+    opacity: 0.55;
+  }
+
+  .bullets-lock-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 10px 18px;
+    background: rgba(196,165,114,0.05);
+    border-top: 1px solid var(--champagne-deep);
+    flex-wrap: wrap;
+  }
+
+  .bullets-lock-bar .blb-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .bullets-lock-bar .blb-btn {
+    background: transparent;
+    border: 1px solid var(--champagne-deep);
+    color: var(--champagne);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .bullets-lock-bar .blb-btn:hover {
+    background: var(--champagne);
+    color: var(--bg-deep);
+  }
+
+  /* Uplift projection */
+  .uplift-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px 22px;
+    margin-top: 12px;
+    margin-bottom: 20px;
+  }
+
+  .uplift-header {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--champagne);
+    margin-bottom: 14px;
+  }
+
+  .uplift-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  @media (max-width: 500px) {
+    .uplift-grid { grid-template-columns: 1fr; }
+  }
+
+  .uplift-cell {
+    background: var(--bg-deep);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    text-align: center;
+  }
+
+  .uplift-cell.optimistic { border-color: var(--green); }
+
+  .uplift-cell .uc-scenario {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+  }
+
+  .uplift-cell .uc-value {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 32px;
+    line-height: 1;
+    font-variation-settings: 'opsz' 144;
+    margin-bottom: 4px;
+  }
+
+  .uplift-cell.conservative .uc-value { color: var(--champagne); }
+  .uplift-cell.average .uc-value { color: var(--champagne-soft); }
+  .uplift-cell.optimistic .uc-value { color: var(--green); }
+
+  .uplift-cell .uc-label {
+    font-size: 11.5px;
+    color: var(--text-soft);
+    line-height: 1.35;
+  }
+
+  .uplift-note {
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+  }
+
+  /* CLOSING */
+  .closing {
+    margin-top: 80px;
+    padding: 48px 0 24px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .closing .mark {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 32px;
+    color: var(--champagne);
+    margin-bottom: 22px;
+    font-variation-settings: 'opsz' 144;
+  }
+
+  .closing .text {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--text-soft);
+    max-width: 500px;
+    margin: 0 auto;
+    font-variation-settings: 'opsz' 96;
+  }
+
+  .closing .text em { color: var(--champagne); }
+
+  .closing .signoff {
+    margin-top: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+  }
+
+  .doc-footer {
+    margin-top: 48px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Raw analysis text display */
+  .raw-analysis {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--text-soft);
+    white-space: pre-wrap;
+    font-family: 'Inter Tight', sans-serif;
+  }
+
+  .raw-analysis strong { color: var(--text); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="doc-header">
+    <div class="doc-meta">
+      <div>VEYO · Brand Intelligence · v1.0</div>
+      <div>Foundational Brief · Live Demonstration</div>
+    </div>
+    <div class="doc-stamp">Restricted · Pre-Conversation</div>
+  </div>
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div class="veyo-eyebrow">— veyo</div>
+    <h1>Brand intelligence<br/>for the <em>creator economy</em>.</h1>
+    <p class="masthead-deck">
+      Veyo is the first firm applying maison-grade brand evaluation to creators. Not a software platform. Not an agency. A brand intelligence practice — built on the same discipline that protects the world's most valuable luxury houses, now operating at creator-economy scale.
+    </p>
+    <div class="authority">
+      <div class="authority-label">The discipline behind Veyo</div>
+      <p class="authority-text">
+        Veyo was created after five years of certified evaluation work across twenty-five of the world's most demanding luxury maisons — with <strong>CXG (Customer Experience Group)</strong> as the training ground. That experience shaped the methodology. Veyo is its independent evolution: the same rigor, applied to a market that has never received it, at a scale and velocity no traditional firm can match.
+      </p>
+      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+        <div class="brand-chips-label">Maisons evaluated · certified evaluator · 5 years</div>
+        <div class="brand-chips">
+          <span class="chip">Hermès</span>
+          <span class="chip">Rolex</span>
+          <span class="chip">Christian Dior</span>
+          <span class="chip">Louis Vuitton</span>
+          <span class="chip">Tiffany & Co.</span>
+          <span class="chip">Chopard</span>
+          <span class="chip">Bottega Veneta</span>
+          <span class="chip">Ferrari</span>
+          <span class="chip">Porsche</span>
+          <span class="chip">Prada</span>
+          <span class="chip">Saint Laurent</span>
+          <span class="chip">Gucci</span>
+          <span class="chip">Ferragamo</span>
+          <span class="chip">Stone Island</span>
+          <span class="chip">Acne Studios</span>
+          <span class="chip">COS</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- I. PREMISE -->
+  <section>
+    <div class="sh">
+      <div class="sh-label"><span class="sh-roman">I.</span><span class="sh-name">What Veyo Is</span></div>
+      <h2>The <em>first</em> brand intelligence<br/>firm for creators.</h2>
+      <p class="deck">Not a management agency. Not a software tool. A practice — with a methodology, a standard, and a set of deliverables that have never existed in this market.</p>
+    </div>
+    <div class="prose">
+      <p>Hermès does not guess whether its advisors deliver brand-grade experience. <strong>It audits.</strong> Quarterly. Globally. Through trained evaluators applying a six-stage framework that scores every moment of every interaction — the welcome, the connection, the inspiration, the reveal, the relationship, the follow-up. Each maison knows exactly where experience drifted from its standard and what should have been done differently.</p>
+      <p>Rolex applies the same discipline to its digital channels. Ferrari to its aftersales calls. Dior to its beauty advisor certification. The most valuable brands in the world treat experience as an auditable, improvable system — not a matter of instinct or mood.</p>
+      <p>The creator economy generates billions in annual revenue and operates entirely without this. A creator earning $5M a year has no methodology for evaluating whether her chatters preserve her voice, whether her welcome moments build connection, whether her PPV reveals carry brand storytelling. Her brand is her most valuable asset and it is managed entirely by intuition. <strong>Veyo changes that.</strong></p>
+    </div>
+  </section>
+
+  <!-- II. THE SIX STAGES -->
+  <section>
+    <div class="sh">
+      <div class="sh-label"><span class="sh-roman">II.</span><span class="sh-name">The Framework</span></div>
+      <h2>Six stages, <em>transposed</em>.</h2>
+      <p class="deck">What <span id="rotatingBrand" style="color:var(--champagne);font-style:normal">Hermès</span> evaluates in a boutique — applied to a creator's subscriber journey.</p>
+    </div>
+
+    <div class="stage">
+      <div class="stage-num">I.</div>
+      <div>
+        <h3>Be A <em>Host</em></h3>
+        <div class="stage-map">
+          <div class="map-half lux">
+            <div class="mlabel">Hermès · Boutique</div>
+            Browse until approached. If no one approaches in five minutes, that is a scored failure. Recognition without intrusion. Hospitality before transaction.
+          </div>
+          <div class="map-half">
+            <div class="mlabel">Veyo · Creator</div>
+            Welcome message, first proactive DM, free preview timing. <strong>48 hours of silence = Hermès advisor walking past a client for five minutes.</strong> Scored the same way.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-num">II.</div>
+      <div>
+        <h3>Build A <em>Connection</em></h3>
+        <div class="stage-map">
+          <div class="map-half lux">
+            <div class="mlabel">Hermès · Boutique</div>
+            The advisor discovers needs through questions. Taste, occasion, relationship with the brand. <em>The client book is built through curiosity, not transaction.</em>
+          </div>
+          <div class="map-half">
+            <div class="mlabel">Veyo · Creator</div>
+            Subscriber discovery. What brought them, what they value, what they've responded to before. The Profiler agent constructs the creator's <strong>client book</strong> — one dossier per subscriber, exactly as an Hermès advisor would.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-num">III.</div>
+      <div>
+        <h3><em>Inspire</em></h3>
+        <div class="stage-map">
+          <div class="map-half lux">
+            <div class="mlabel">Rolex · Acne Studios · Stone Island</div>
+            Was the advisor <em>passionate</em>? What did they say about brand values? Passion is explicitly scored. Generic enthusiasm fails.
+          </div>
+          <div class="map-half">
+            <div class="mlabel">Veyo · Creator</div>
+            Brand storytelling layer of every interaction. Does content carry universe and values, or only transaction? <strong>The Composer generates concepts that encode brand passion explicitly.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-num">IV.</div>
+      <div>
+        <h3><em>Reveal</em></h3>
+        <div class="stage-map">
+          <div class="map-half lux">
+            <div class="mlabel">Hermès · Tiffany · Bottega Veneta</div>
+            The product is staged, not displayed. How was it presented? How did it make you feel? <em>The reveal is ritual, not transaction.</em>
+          </div>
+          <div class="map-half">
+            <div class="mlabel">Veyo · Creator</div>
+            PPV reveals, exclusive drops, tier upgrades — staged as ritual. The Oracle and Composer coordinate: <strong>scarcity as theater, not throughput.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-num">V.</div>
+      <div>
+        <h3>See <em>Long-term</em></h3>
+        <div class="stage-map">
+          <div class="map-half lux">
+            <div class="mlabel">Hermès · Saint Laurent · Acne</div>
+            Did the advisor introduce additional items? Invite future visits? The transaction was incidental. <em>The relationship continues.</em>
+          </div>
+          <div class="map-half">
+            <div class="mlabel">Veyo · Creator</div>
+            Tier upgrades, VIP relationship architecture, custom content. <strong>The difference between a subscriber and a client is whether the system sees beyond the next PPV.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-num">VI.</div>
+      <div>
+        <h3>After Your <em>Visit</em></h3>
+        <div class="stage-map">
+          <div class="map-half lux">
+            <div class="mlabel">Saint Laurent 5d · Acne 3d · Dior 15d</div>
+            Every brand has a codified follow-up SLA. Failure to recontact within the window is a scored failure, regardless of how strong the visit was.
+          </div>
+          <div class="map-half">
+            <div class="mlabel">Veyo · Creator</div>
+            Cadenced re-engagement per creator brand. <strong>No creator on the platform currently has a follow-up SLA.</strong> This is the most under-served and highest-ROI stage.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- III. WHAT WE DELIVER -->
+  <section>
+    <div class="sh">
+      <div class="sh-label"><span class="sh-roman">III.</span><span class="sh-name">The Deliverables</span></div>
+      <h2>What we deliver, <em>concretely</em>.</h2>
+      <p class="deck">Nine outputs. Each tied to an agent. Each with a measurable outcome.</p>
+    </div>
+
+    <div class="deliv-table">
+      <div class="deliv-header">
+        <div>Deliverable</div>
+        <div>Format</div>
+        <div class="col-3">What it transforms</div>
+      </div>
+
+      <div class="deliv-row">
+        <div>
+          <div class="d-agent">A·01 · Codifier</div>
+          <div class="d-name">Brand Certification</div>
+        </div>
+        <div class="d-format">12-page living document. Updated weekly. Includes voice signature, brand values, what-she-never-says, ideal subscriber archetype.</div>
+        <div class="d-outcome col-3">Chatters stop sounding like chatters. Every outbound message passes through a single brand truth. <strong>Voice drift eliminated.</strong></div>
+      </div>
+
+      <div class="deliv-row">
+        <div>
+          <div class="d-agent">A·02 · Cartographer</div>
+          <div class="d-name">Geographic Demand Heatmap</div>
+        </div>
+        <div class="d-format">Daily visual heatmap + weekly emerging market report with action items per country. Alerts when threshold crossed.</div>
+        <div class="d-outcome col-3">Creator moves to capture a market wave 30-60 days before competitors detect it. <strong>First-mover advantage, systematized.</strong></div>
+      </div>
+
+      <div class="deliv-row">
+        <div>
+          <div class="d-agent">A·03 · Strategist</div>
+          <div class="d-name">Competitive Map</div>
+        </div>
+        <div class="d-format">Weekly brief mapping top 15-20 creators in niche. Positioning plot with whitespace flags. Move detection.</div>
+        <div class="d-outcome col-3">Creator knows exactly where the market has space before committing to a positioning move. <strong>Strategic decisions grounded in data, not instinct.</strong></div>
+      </div>
+
+      <div class="deliv-row">
+        <div>
+          <div class="d-agent">A·04 · Profiler</div>
+          <div class="d-name">Subscriber Client Book</div>
+        </div>
+        <div class="d-format">Per-subscriber psychographic dossier. VIP list daily. Churn-risk list with 10-day advance warning. Segment maps.</div>
+        <div class="d-outcome col-3">VIP subscribers treated as Hermès treats its top clients. Churning subscribers recovered before they leave. <strong>LTV extended across the board.</strong></div>
+      </div>
+
+      <div class="deliv-row">
+        <div>
+          <div class="d-agent">A·05 · Guardian</div>
+          <div class="d-name">Reputation Dashboard</div>
+        </div>
+        <div class="d-format">Daily risk report. Leaked content tracking, deepfake detection, doxxing alerts, IP infringement queue.</div>
+        <div class="d-outcome col-3">Brand asset protected at the edges. <strong>Zero surprises from reputation threats.</strong></div>
+      </div>
+
+      <div class="deliv-row">
+        <div>
+          <div class="d-agent">A·06 · Sentinel</div>
+          <div class="d-name">Voice Fidelity Score</div>
+        </div>
+        <div class="d-format">Pre-send evaluation of every chatter DM. Real-time rewrite suggestion. Daily chatter performance report per conversation.</div>
+        <div class="d-outcome col-3">Every DM sounds like the creator, not a chatter. <strong>The #1 churn driver — "doesn't feel like her anymore" — eliminated.</strong></div>
+      </div>
+
+      <div class="deliv-row">
+        <div>
+          <div class="d-agent">A·07 · Composer</div>
+          <div class="d-name">Content Roadmap</div>
+        </div>
+        <div class="d-format">Weekly concept queue ranked by predicted performance. Geo-adapted variations. Brand-narrative-aligned creative briefs.</div>
+        <div class="d-outcome col-3">Content decisions made from signal, not intuition. <strong>Revenue per piece of content increases.</strong></div>
+      </div>
+
+      <div class="deliv-row">
+        <div>
+          <div class="d-agent">A·08 · Oracle</div>
+          <div class="d-name">Pricing Recommendations</div>
+        </div>
+        <div class="d-format">Per-subscriber, per-content, per-moment pricing optimization. PPV ladder calibrated to segment and behavior.</div>
+        <div class="d-outcome col-3">Same content, higher revenue. <strong>2x revenue per content unit is consistently achievable with optimized pricing.</strong></div>
+      </div>
+
+      <div class="deliv-row">
+        <div>
+          <div class="d-agent">A·09 · Architect</div>
+          <div class="d-name">5-Year Brand Architecture</div>
+        </div>
+        <div class="d-format">Quarterly strategic review. Post-platform pathway. European partnership pipeline. IP and entity structure. Exit infrastructure.</div>
+        <div class="d-outcome col-3">Creator transitions from personal brand to portable asset. <strong>Platform disruption becomes an opportunity, not a threat.</strong></div>
+      </div>
+    </div>
+
+    <div class="moat">
+      <h3>The <em>asset</em> is the methodology, not the AI.</h3>
+      <p>Every competitor can license the same AI infrastructure. <strong>None can license what was built across twenty-five maisons over five years.</strong> The Veyo framework is operational, tacit, internalized through hundreds of real evaluations at Hermès, Rolex, Dior, Ferrari, Porsche, Tiffany, and others. This is what luxury calls <em>savoir-faire</em>. It cannot be bought or replicated in six months by a competitor who reads about it.</p>
+    </div>
+  </section>
+
+  <!-- IV. LIVE DEMO -->
+  <section>
+    <div class="sh">
+      <div class="sh-label"><span class="sh-roman">IV.</span><span class="sh-name">Live Demonstration</span></div>
+      <h2>Enter any creator.<br/>See the <em>methodology</em> run.</h2>
+      <p class="deck">Real analysis. Generated in real time. Applying the Veyo six-stage framework to public information about any creator you name.</p>
+    </div>
+
+    <div class="interactive">
+      <h3>Run a <em>Veyo Analysis</em></h3>
+      <p class="int-deck">Enter any creator's name. The system applies the six-stage evaluation framework and returns a structured brand intelligence reading — in real time.</p>
+
+      <div class="input-row">
+        <input type="text" class="creator-input" id="creatorInput"
+          placeholder="e.g. Karely Ruiz, Sophie Rain, Aida Cortés, Amouranth..."
+          maxlength="100"/>
+        <button class="analyze-btn" id="analyzeBtn" onclick="runAnalysis()">Analyze →</button>
+      </div>
+
+      <p class="int-note">Public surface analysis · Tier I · Veyo Intelligence Engine · ~30 seconds</p>
+
+      <div class="loading-state" id="loadingState">
+        <div class="loading-spinner"></div>
+        <div class="loading-counter">Analyzing <span id="dataCounter">0</span> data points</div>
+        <div class="loading-insight" id="loadingInsight">
+          <div class="li-action" id="insightAction">Scanning welcome sequence</div>
+          <div class="li-finding" id="insightFinding">Opportunity detected — based on Rolex digital journey</div>
+        </div>
+      </div>
+
+      <div class="error-state" id="errorState"></div>
+      <div class="analysis-output" id="analysisOutput"></div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <div class="closing">
+    <div class="mark">§</div>
+    <p class="text">
+      The framework is forty years old.<br/>
+      The transposition is <em>new</em>.<br/>
+      The market has never seen it.
+    </p>
+    <div class="signoff">— End of Foundational Brief · Veyo —</div>
+  </div>
+
+  <div class="doc-footer">
+    <span>VEYO-001 · v1.0</span>
+    <span>Veyo Intelligence · Stockholm</span>
+  </div>
+
+</div>
+
+
+<script>
+  const PROXY_URL = 'https://veyo-proxy.raspy-butterfly-8f28.workers.dev';
+
+  // Rotating brand name
+  const BRANDS = ['Hermès','Rolex','Louis Vuitton','Dior','Ferrari','Porsche','Tiffany & Co.','Bottega Veneta','Chopard','Prada','Saint Laurent','Acne Studios'];
+  let brandIdx = 0;
+  const rotEl = document.getElementById('rotatingBrand');
+  if (rotEl) {
+    setInterval(() => {
+      rotEl.style.opacity = '0';
+      rotEl.style.transition = 'opacity 0.4s ease';
+      setTimeout(() => {
+        brandIdx = (brandIdx + 1) % BRANDS.length;
+        rotEl.textContent = BRANDS[brandIdx];
+        rotEl.style.opacity = '1';
+      }, 400);
+    }, 2800);
+  }
+
+  const STAGE_NAMES = ['Be A Host','Build A Connection','Inspire','Reveal','See Long-term','After Your Visit'];
+  const STAGE_ROMAN = ['I','II','III','IV','V','VI'];
+
+  function scoreClass(s) { return s >= 7 ? 'high' : s >= 5 ? 'mid' : 'low'; }
+
+  function verdictLabel(total) {
+    if (total >= 48) return 'Maison Grade';
+    if (total >= 36) return 'Above Standard';
+    if (total >= 24) return 'Developing';
+    return 'Below Standard';
+  }
+
+  function upliftRange(total) {
+    const gap = 60 - total;
+    const conservative = Math.round(gap * 0.8);
+    const average = Math.round(gap * 1.4);
+    const optimistic = Math.round(gap * 2.1);
+    return { conservative, average, optimistic };
+  }
+
+  function renderBullets(recs, locked, creatorName) {
+    const bullets = Array.isArray(recs) ? recs : [recs];
+    const bulletsHTML = '<div class="stage-bullets">' +
+      bullets.map(b => '<div class="stage-bullet">' + b + '</div>').join('') +
+      '</div>';
+
+    if (!locked) return bulletsHTML;
+
+    return '<div class="bullets-locked">' +
+      bulletsHTML +
+      '</div>' +
+      '<div class="bullets-lock-bar">' +
+        '<span class="blb-label">Full recommendations · Tier II</span>' +
+        '<a href="mailto:hello@veyo.house?subject=Full Evaluation · ' + creatorName + '" class="blb-btn">Unlock →</a>' +
+      '</div>';
+  }
+
+  function renderReport(data, creatorInput) {
+    const total = data.overall_score;
+    const sc = scoreClass(total / 6);
+    const uplift = upliftRange(total);
+
+    const pips = data.stages.map(s => {
+      const c = scoreClass(s.score);
+      return '<div class="score-pip ' + c + '" title="Stage ' + s.number + ': ' + s.score + '/10"></div>';
+    }).join('');
+
+    const stageCards = data.stages.map((s, i) => {
+      const c = scoreClass(s.score);
+      const pct = (s.score / 10 * 100).toFixed(0);
+      const isLocked = i >= 2;
+      const recs = s.recommendations || [s.recommendation || 'Contact Veyo for full recommendations.'];
+
+      return '<div class="stage-card">' +
+        '<div class="stage-card-top">' +
+          '<div class="stage-card-meta">' +
+            '<div class="stage-card-label">Stage ' + (s.number || STAGE_ROMAN[i]) + '</div>' +
+            '<div class="stage-card-score ' + c + '">' + s.score + ' / 10</div>' +
+          '</div>' +
+          '<div class="stage-card-name">' + (s.name || STAGE_NAMES[i]) + '</div>' +
+        '</div>' +
+        '<div class="stage-bar-track"><div class="stage-bar-fill ' + c + '" style="width:' + pct + '%"></div></div>' +
+        '<div class="stage-card-analysis">' + s.analysis + '</div>' +
+        renderBullets(recs, isLocked, data.creator || creatorInput) +
+        '</div>';
+    }).join('');
+
+    return '<div class="report-header">' +
+        '<div class="report-tag">Veyo Intelligence Report · Tier I · Public Surface</div>' +
+        '<div class="report-creator-name">' + (data.creator || creatorInput) + '</div>' +
+        '<div class="report-archetype">' + (data.archetype || '') + '</div>' +
+        '<div class="report-positioning">' + (data.positioning || '') + '</div>' +
+      '</div>' +
+      '<div class="score-overview">' + pips + '<span class="score-overview-label">Six-stage overview · recommendations III–VI require Tier II</span></div>' +
+      '<div class="report-stages">' + stageCards + '</div>' +
+      '<div class="overall-score-block">' +
+        '<div class="overall-number ' + sc + '">' + total + '</div>' +
+        '<div class="overall-meta">' +
+          '<div class="overall-denom">out of 60 · Veyo Six-Stage Index</div>' +
+          '<div class="overall-verdict">' + verdictLabel(total) + '</div>' +
+          '<div class="overall-context">Evaluated against the same standards applied to Hermès, Rolex, and Dior boutique experiences — transposed to the creator economy by Veyo.</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="uplift-block">' +
+        '<div class="uplift-header">★ Projected Revenue Uplift · 90-Day Horizon · If Recommendations Applied</div>' +
+        '<div class="uplift-grid">' +
+          '<div class="uplift-cell conservative"><div class="uc-scenario">Conservative</div><div class="uc-value">+' + uplift.conservative + '%</div><div class="uc-label">Revenue per subscriber · partial implementation</div></div>' +
+          '<div class="uplift-cell average"><div class="uc-scenario">Probable</div><div class="uc-value">+' + uplift.average + '%</div><div class="uc-label">Revenue per subscriber · Stages I–III execution</div></div>' +
+          '<div class="uplift-cell optimistic"><div class="uc-scenario">Optimistic</div><div class="uc-value">+' + uplift.optimistic + '%</div><div class="uc-label">Revenue per subscriber · full six-stage deployment</div></div>' +
+        '</div>' +
+        '<div class="uplift-note">Projections based on Veyo benchmark data across comparable creator profiles. Full evaluation required for calibrated modeling.</div>' +
+      '</div>' +
+      '<div class="strategic-block">' +
+        '<div class="strategic-text">' + (data.strategic_finding || '') + '</div>' +
+        '<div class="primary-intervention">' + (data.primary_intervention || '') + '</div>' +
+      '</div>' +
+      '<div class="report-cta">' +
+        '<div class="cta-left">' +
+          '<div class="cta-label">This is a Tier I · Public Surface Analysis</div>' +
+          '<div class="cta-title">Full Veyo Evaluation goes deeper.</div>' +
+          '<div class="cta-desc">Tier I reads public signals only. Full evaluation unlocks all stage recommendations, subscriber behavior analysis, DM pattern audit, revenue trajectory modeling, and the complete nine-agent system running continuously. Veyo works with a select number of creators each quarter.</div>' +
+        '</div>' +
+        '<a href="mailto:hello@veyo.house?subject=Full Evaluation · ' + (data.creator || creatorInput) + '" class="cta-btn">Begin Conversation →</a>' +
+      '</div>' +
+      '<div class="report-footer">Veyo · hello@veyo.house · Stockholm, Sweden · By appointment</div>';
+  }
+
+  async function runAnalysis() {
+    const input = document.getElementById('creatorInput');
+    const btn = document.getElementById('analyzeBtn');
+    const loading = document.getElementById('loadingState');
+    const output = document.getElementById('analysisOutput');
+    const errorState = document.getElementById('errorState');
+
+    const creatorName = input.value.trim();
+    if (!creatorName) return;
+
+    output.classList.remove('visible');
+    errorState.classList.remove('visible');
+    loading.classList.add('visible');
+    btn.disabled = true;
+    btn.textContent = 'Analyzing...';
+
+    // Loading animation
+    const INSIGHTS = [
+      { action: 'Scanning welcome sequence', finding: 'Opportunity detected — based on Rolex digital journey' },
+      { action: 'Evaluating voice consistency', finding: 'Gap identified — based on Hermès boutique standards' },
+      { action: 'Reading content reveal patterns', finding: 'Benchmark applied — based on Dior product presentation' },
+      { action: 'Analyzing subscriber touchpoints', finding: 'Protocol matched — based on Ferrari aftersales journey' },
+      { action: 'Mapping competitive positioning', finding: 'Reference applied — based on Louis Vuitton brand architecture' },
+      { action: 'Assessing long-term signals', finding: 'Standard active — based on Chopard VIP client journey' },
+      { action: 'Evaluating follow-up cadence', finding: 'Protocol matched — based on Saint Laurent client retention' },
+      { action: 'Processing brand coherence', finding: 'Benchmark active — based on Bottega Veneta aesthetic discipline' },
+      { action: 'Scoring six-stage framework', finding: 'Index compiled — based on Porsche customer experience standard' }
+    ];
+
+    let insightIdx = 0;
+    let dataCount = 0;
+    const targetData = 2847;
+    const insightEl = document.getElementById('loadingInsight');
+    const actionEl = document.getElementById('insightAction');
+    const findingEl = document.getElementById('insightFinding');
+    const counterEl = document.getElementById('dataCounter');
+
+    // Counter animation
+    const counterInterval = setInterval(() => {
+      const increment = Math.floor(Math.random() * 120) + 40;
+      dataCount = Math.min(dataCount + increment, targetData);
+      if (counterEl) counterEl.textContent = dataCount.toLocaleString();
+      if (dataCount >= targetData) clearInterval(counterInterval);
+    }, 180);
+
+    // Insight blink animation
+    const showInsight = () => {
+      if (!insightEl) return;
+      insightEl.classList.remove('show');
+      setTimeout(() => {
+        const ins = INSIGHTS[insightIdx % INSIGHTS.length];
+        if (actionEl) actionEl.textContent = ins.action;
+        if (findingEl) findingEl.textContent = ins.finding;
+        insightEl.classList.add('show');
+        insightIdx++;
+      }, 500);
+    };
+
+    showInsight();
+    const insightInterval = setInterval(showInsight, 4000);
+
+    const stopAnimation = () => {
+      clearInterval(counterInterval);
+      clearInterval(insightInterval);
+      if (counterEl) counterEl.textContent = targetData.toLocaleString();
+    };
+
+    const systemPrompt = `You are the Veyo Intelligence Engine. Veyo is a creator brand intelligence firm — the first applying maison-grade evaluation discipline to the creator economy. The methodology was forged through five years of certified evaluation work across Hermès, Rolex, Christian Dior, Louis Vuitton, Tiffany & Co., Ferrari, Porsche, Bottega Veneta, and others. Veyo is its independent evolution, operating at creator-economy scale with AI.
+
+Apply the six-stage Veyo framework to creators using publicly available information. Respond ONLY with valid JSON. No markdown, no preamble.
+
+Required JSON structure:
+{
+  "creator": "exact name as given",
+  "archetype": "The [2-4 word label]",
+  "positioning": "One sentence at luxury-consultant register. Specific. Not generic.",
+  "stages": [
+    {
+      "number": "I",
+      "name": "Be A Host",
+      "score": 4,
+      "analysis": "2-3 specific sentences. What a Veyo evaluator would observe. Reference actual known characteristics.",
+      "recommendations": ["Specific action bullet 1", "Specific action bullet 2", "Specific action bullet 3"]
+    },
+    { "number": "II", "name": "Build A Connection", "score": 5, "analysis": "...", "recommendations": ["bullet 1", "bullet 2", "bullet 3"] },
+    { "number": "III", "name": "Inspire", "score": 6, "analysis": "...", "recommendations": ["bullet 1", "bullet 2"] },
+    { "number": "IV", "name": "Reveal", "score": 5, "analysis": "...", "recommendations": ["bullet 1", "bullet 2"] },
+    { "number": "V", "name": "See Long-term", "score": 3, "analysis": "...", "recommendations": ["bullet 1", "bullet 2", "bullet 3"] },
+    { "number": "VI", "name": "After Your Visit", "score": 4, "analysis": "...", "recommendations": ["bullet 1", "bullet 2"] }
+  ],
+  "overall_score": 27,
+  "urgency": "high",
+  "strategic_finding": "2-3 sentences at luxury-consultant register. The structural insight. The architecture of the problem.",
+  "primary_intervention": "One sentence. The single most important action in the next 30 days."
+}
+
+Score honestly. overall_score must equal sum of all six stage scores. Recommendations must be specific, actionable bullet points — not narrative prose.`;
+
+    const userPrompt = 'Run a complete Veyo six-stage brand evaluation of: ' + creatorName + '. Use everything publicly known. Be honest and specific.';
+
+    try {
+      const response = await fetch(PROXY_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-5',
+          max_tokens: 2500,
+          system: systemPrompt,
+          messages: [{ role: 'user', content: userPrompt }]
+        })
+      });
+
+      const data = await response.json();
+      if (data.error) throw new Error(data.error.message || 'API error');
+      if (!data.content || !data.content[0]) throw new Error('No response received');
+
+      const raw = data.content[0].text.trim();
+      const jsonStr = raw.replace(/^```json\s*/,'').replace(/\s*```$/,'').trim();
+      const parsed = JSON.parse(jsonStr);
+
+      output.innerHTML = renderReport(parsed, creatorName);
+      stopAnimation();
+      loading.classList.remove('visible');
+      output.classList.add('visible');
+
+      setTimeout(() => {
+        output.querySelectorAll('.stage-bar-fill').forEach(bar => {
+          const w = bar.style.width;
+          bar.style.width = '0%';
+          requestAnimationFrame(() => { setTimeout(() => { bar.style.width = w; }, 50); });
+        });
+      }, 100);
+
+    } catch (err) {
+      stopAnimation();
+      loading.classList.remove('visible');
+      errorState.classList.add('visible');
+      errorState.textContent = 'Analysis error: ' + err.message + '. Please try again.';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Analyze →';
+    }
+  }
+
+  document.getElementById('creatorInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') runAnalysis();
+  });
+</script>
+
+</body>
+</html>
